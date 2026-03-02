@@ -13,7 +13,7 @@ export const getItems = async (req, res) => {
         // }
 
         // Find the menu for the specified company
-        const menu = await Menu.findAll({ isActive: true });
+        const menu = await Menu.find({ isActive: true });
 
         if (!menu || menu.length === 0) {
             return res.status(404).json({ message: "Menu not found for this company" });

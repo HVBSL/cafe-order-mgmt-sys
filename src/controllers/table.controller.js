@@ -18,7 +18,6 @@ export const createTable = async (req, res) => {
         const table = await Table.create({
             tableNumber,
             capacity,
-            companyId,
             status: true,
         });
 
@@ -30,10 +29,10 @@ export const createTable = async (req, res) => {
 
 export const getTables = async (req, res) => {
     try {
-        const { companyId, tableId, status } = req.body;
+        const { tableId, status } = req.body;
 
-        const company = await CompanyDet.findById(companyId);
-        if (!company) {
+        const company = await CompanyDet.findAll({status: true});
+         if (!company || company.length === 0) {
             return res.status(404).json({ message: "Company not found" });
         }
 

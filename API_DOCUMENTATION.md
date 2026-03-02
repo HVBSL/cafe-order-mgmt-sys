@@ -10,148 +10,7 @@ All requests and responses use `application/json` content type.
 
 ---
 
-## 1. COMPANY API
-
-### 1.1 Create Company
-Creates a new company record.
-
-**Endpoint:** `POST /api/companies/create`
-
-**Request Body:**
-```json
-{
-  "name": "Pizza Palace",
-  "email": "info@pizzapalace.com",
-  "phoneNo": "9876543210",
-  "address": "123 Main Street, New York, NY 10001"
-}
-```
-
-**Success Response (201):**
-```json
-{
-  "message": "Company created successfully",
-  "company": {
-    "_id": "507f1f77bcf86cd799439012",
-    "name": "Pizza Palace",
-    "email": "info@pizzapalace.com",
-    "phoneNo": "9876543210",
-    "address": "123 Main Street, New York, NY 10001",
-    "createdAt": "2026-03-02T09:00:00.000Z",
-    "updatedAt": "2026-03-02T09:00:00.000Z"
-  }
-}
-```
-
-**Error Response (400) - Duplicate Email:**
-```json
-{
-  "message": "Company with this email already exists"
-}
-```
-
-**Error Response (500):**
-```json
-{
-  "message": "Error creating company",
-  "error": "Database connection error"
-}
-```
-
----
-
-### 1.2 Get Companies
-Retrieves companies by ID, email, or all companies.
-
-**Endpoint:** `GET /api/companies/get`
-
-**Request Body (Get All):**
-```json
-{}
-```
-
-**Request Body (Get by ID):**
-```json
-{
-  "companyId": "507f1f77bcf86cd799439012"
-}
-```
-
-**Request Body (Get by Email):**
-```json
-{
-  "email": "info@pizzapalace.com"
-}
-```
-
-**Success Response (200):**
-```json
-{
-  "companies": [
-    {
-      "_id": "507f1f77bcf86cd799439012",
-      "name": "Pizza Palace",
-      "email": "info@pizzapalace.com",
-      "phoneNo": "9876543210",
-      "address": "123 Main Street, New York, NY 10001",
-      "createdAt": "2026-03-02T09:00:00.000Z",
-      "updatedAt": "2026-03-02T09:00:00.000Z"
-    }
-  ]
-}
-```
-
-**Error Response (404):**
-```json
-{
-  "message": "Company not found"
-}
-```
-
----
-
-### 1.3 Update Company
-Updates company information.
-
-**Endpoint:** `PUT /api/companies/update`
-
-**Request Body:**
-```json
-{
-  "companyId": "507f1f77bcf86cd799439012",
-  "name": "Pizza Palace Premium",
-  "email": "support@pizzapalace.com",
-  "phoneNo": "9876543211",
-  "address": "456 Main Street, New York, NY 10001"
-}
-```
-
-**Success Response (200):**
-```json
-{
-  "message": "Company updated successfully",
-  "company": {
-    "_id": "507f1f77bcf86cd799439012",
-    "name": "Pizza Palace Premium",
-    "email": "support@pizzapalace.com",
-    "phoneNo": "9876543211",
-    "address": "456 Main Street, New York, NY 10001",
-    "createdAt": "2026-03-02T09:00:00.000Z",
-    "updatedAt": "2026-03-02T09:15:00.000Z"
-  }
-}
-```
-
-**Error Response (404):**
-```json
-{
-  "message": "Company not found"
-}
-```
-
----
-
-## 2. TABLES API
+## 1. TABLES API
 
 ### 2.1 Create Table
 Creates a new table for a company.
@@ -163,7 +22,6 @@ Creates a new table for a company.
 {
   "tableNumber": 1,
   "capacity": 4,
-  "companyId": "507f1f77bcf86cd799439012"
 }
 ```
 
@@ -175,7 +33,6 @@ Creates a new table for a company.
     "_id": "507f1f77bcf86cd799439011",
     "tableNumber": 1,
     "capacity": 4,
-    "companyId": "507f1f77bcf86cd799439012",
     "status": true,
     "createdAt": "2026-03-02T09:20:00.000Z",
     "updatedAt": "2026-03-02T09:20:00.000Z"
@@ -206,15 +63,12 @@ Retrieves tables based on company and optional filters.
 
 **Request Body (Get All Tables for Company):**
 ```json
-{
-  "companyId": "507f1f77bcf86cd799439012"
-}
+
 ```
 
 **Request Body (Get Specific Table):**
 ```json
 {
-  "companyId": "507f1f77bcf86cd799439012",
   "tableId": "507f1f77bcf86cd799439011"
 }
 ```
@@ -235,7 +89,6 @@ Retrieves tables based on company and optional filters.
       "_id": "507f1f77bcf86cd799439011",
       "tableNumber": 1,
       "capacity": 4,
-      "companyId": "507f1f77bcf86cd799439012",
       "status": true,
       "createdAt": "2026-03-02T09:20:00.000Z",
       "updatedAt": "2026-03-02T09:20:00.000Z"
@@ -244,7 +97,6 @@ Retrieves tables based on company and optional filters.
       "_id": "507f1f77bcf86cd799439015",
       "tableNumber": 2,
       "capacity": 6,
-      "companyId": "507f1f77bcf86cd799439012",
       "status": true,
       "createdAt": "2026-03-02T09:21:00.000Z",
       "updatedAt": "2026-03-02T09:21:00.000Z"
@@ -285,7 +137,6 @@ Updates table information.
     "_id": "507f1f77bcf86cd799439011",
     "tableNumber": 1,
     "capacity": 6,
-    "companyId": "507f1f77bcf86cd799439012",
     "status": true,
     "createdAt": "2026-03-02T09:20:00.000Z",
     "updatedAt": "2026-03-02T09:25:00.000Z"
@@ -302,9 +153,9 @@ Updates table information.
 
 ---
 
-## 3. SESSIONS API
+## 2. SESSIONS API
 
-### 3.1 Create Session
+### 2.1 Create Session
 Creates a new customer session for a table.
 
 **Endpoint:** `POST /api/sessions/create`
@@ -315,7 +166,6 @@ Creates a new customer session for a table.
   "tableId": "507f1f77bcf86cd799439011",
   "custName": "John Doe",
   "phoneNo": "98765432101",
-  "companyId": "507f1f77bcf86cd799439012"
 }
 ```
 
@@ -328,7 +178,6 @@ Creates a new customer session for a table.
     "tableId": "507f1f77bcf86cd799439011",
     "custName": "John Doe",
     "phoneNo": "98765432101",
-    "companyId": "507f1f77bcf86cd799439012",
     "active": true,
     "createdAt": "2026-03-02T10:30:00.000Z",
     "updatedAt": "2026-03-02T10:30:00.000Z"
@@ -345,7 +194,7 @@ Creates a new customer session for a table.
 
 ---
 
-### 3.2 Get Sessions
+### 2.2 Get Sessions
 Retrieves active sessions based on filters.
 
 **Endpoint:** `GET /api/sessions/get`
@@ -353,7 +202,6 @@ Retrieves active sessions based on filters.
 **Request Body:**
 ```json
 {
-  "companyId": "507f1f77bcf86cd799439012",
   "tableId": "507f1f77bcf86cd799439011",
   "phoneNo": "98765432101"
 }
@@ -368,7 +216,6 @@ Retrieves active sessions based on filters.
       "tableId": "507f1f77bcf86cd799439011",
       "custName": "John Doe",
       "phoneNo": "98765432101",
-      "companyId": "507f1f77bcf86cd799439012",
       "active": true,
       "createdAt": "2026-03-02T10:30:00.000Z",
       "updatedAt": "2026-03-02T10:30:00.000Z"
@@ -386,7 +233,7 @@ Retrieves active sessions based on filters.
 
 ---
 
-### 3.3 Update Session
+### 2.3 Update Session
 Updates the active status of a session.
 
 **Endpoint:** `PUT /api/sessions/update`
@@ -408,7 +255,6 @@ Updates the active status of a session.
     "tableId": "507f1f77bcf86cd799439011",
     "custName": "John Doe",
     "phoneNo": "98765432101",
-    "companyId": "507f1f77bcf86cd799439012",
     "active": false,
     "createdAt": "2026-03-02T10:30:00.000Z",
     "updatedAt": "2026-03-02T10:35:00.000Z"
@@ -425,9 +271,9 @@ Updates the active status of a session.
 
 ---
 
-## 4. MENU API
+## 3. MENU API
 
-### 4.1 Create Menu Item
+### 3.1 Create Menu Item
 Creates a new menu item for a company.
 
 **Endpoint:** `POST /api/menu/create`
@@ -435,7 +281,6 @@ Creates a new menu item for a company.
 **Request Body:**
 ```json
 {
-  "companyId": "507f1f77bcf86cd799439012",
   "name": "Margherita Pizza",
   "price": 250,
   "category": "Pizza"
@@ -451,7 +296,6 @@ Creates a new menu item for a company.
     "name": "Margherita Pizza",
     "price": 250,
     "category": "Pizza",
-    "companyId": "507f1f77bcf86cd799439012",
     "isAvailable": true,
     "isActive": true,
     "createdAt": "2026-03-02T10:45:00.000Z",
@@ -476,16 +320,14 @@ Creates a new menu item for a company.
 
 ---
 
-### 4.2 Get Menu Items
+### 3.2 Get Menu Items
 Retrieves all menu items for a company.
 
 **Endpoint:** `GET /api/menu/get`
 
 **Request Body:**
 ```json
-{
-  "companyId": "507f1f77bcf86cd799439012"
-}
+
 ```
 
 **Success Response (200):**
@@ -497,7 +339,6 @@ Retrieves all menu items for a company.
       "name": "Margherita Pizza",
       "price": 250,
       "category": "Pizza",
-      "companyId": "507f1f77bcf86cd799439012",
       "isAvailable": true,
       "isActive": true,
       "createdAt": "2026-03-02T10:45:00.000Z",
@@ -508,7 +349,6 @@ Retrieves all menu items for a company.
       "name": "Coke",
       "price": 50,
       "category": "Beverages",
-      "companyId": "507f1f77bcf86cd799439012",
       "isAvailable": true,
       "isActive": true,
       "createdAt": "2026-03-02T10:46:00.000Z",
@@ -527,7 +367,7 @@ Retrieves all menu items for a company.
 
 ---
 
-### 4.3 Update Menu Item
+### 3.3 Update Menu Item
 Updates a menu item's details.
 
 **Endpoint:** `PUT /api/menu/update`
@@ -551,7 +391,6 @@ Updates a menu item's details.
     "name": "Margherita Pizza",
     "price": 275,
     "category": "Pizza",
-    "companyId": "507f1f77bcf86cd799439012",
     "isAvailable": true,
     "isActive": true,
     "createdAt": "2026-03-02T10:45:00.000Z",
@@ -562,7 +401,7 @@ Updates a menu item's details.
 
 ---
 
-### 4.4 Update Item Availability
+### 3.4 Update Item Availability
 Updates the availability status of a menu item.
 
 **Endpoint:** `PUT /api/menu/update-availability`
@@ -584,7 +423,6 @@ Updates the availability status of a menu item.
     "name": "Margherita Pizza",
     "price": 275,
     "category": "Pizza",
-    "companyId": "507f1f77bcf86cd799439012",
     "isAvailable": false,
     "isActive": true,
     "createdAt": "2026-03-02T10:45:00.000Z",
@@ -595,7 +433,7 @@ Updates the availability status of a menu item.
 
 ---
 
-### 4.5 Delete Menu Item
+### 3.5 Delete Menu Item
 Deletes/deactivates a menu item.
 
 **Endpoint:** `DELETE /api/menu/delete`
@@ -616,9 +454,9 @@ Deletes/deactivates a menu item.
 
 ---
 
-## 5. ORDERS API
+## 4. ORDERS API
 
-### 5.1 Place Order
+### 4.1 Place Order
 Creates a new order with menu items.
 
 **Endpoint:** `POST /api/orders/place-order`
@@ -628,7 +466,6 @@ Creates a new order with menu items.
 {
   "sessionId": "507f1f77bcf86cd799439013",
   "tableId": "507f1f77bcf86cd799439011",
-  "companyId": "507f1f77bcf86cd799439012",
   "items": [
     {
       "menuId": "507f1f77bcf86cd799439020",
@@ -654,7 +491,6 @@ Creates a new order with menu items.
     "_id": "507f1f77bcf86cd799439030",
     "sessionId": "507f1f77bcf86cd799439013",
     "tableId": "507f1f77bcf86cd799439011",
-    "companyId": "507f1f77bcf86cd799439012",
     "status": "PLACED",
     "items": [
       {
@@ -691,7 +527,7 @@ Creates a new order with menu items.
 
 ---
 
-### 5.2 Get Orders
+### 4.2 Get Orders
 Retrieves orders based on filters.
 
 **Endpoint:** `GET /api/orders/get`
@@ -699,7 +535,6 @@ Retrieves orders based on filters.
 **Request Body:**
 ```json
 {
-  "companyId": "507f1f77bcf86cd799439012",
   "sessionId": "507f1f77bcf86cd799439013",
   "tableId": "507f1f77bcf86cd799439011"
 }
@@ -713,7 +548,6 @@ Retrieves orders based on filters.
       "_id": "507f1f77bcf86cd799439030",
       "sessionId": "507f1f77bcf86cd799439013",
       "tableId": "507f1f77bcf86cd799439011",
-      "companyId": "507f1f77bcf86cd799439012",
       "status": "PLACED",
       "items": [
         {
@@ -738,7 +572,7 @@ Retrieves orders based on filters.
 
 ---
 
-### 5.3 Update Order Status
+### 4.3 Update Order Status
 Updates the status of an order.
 
 **Endpoint:** `PUT /api/orders/update-status`
@@ -767,7 +601,6 @@ Updates the status of an order.
     "_id": "507f1f77bcf86cd799439030",
     "sessionId": "507f1f77bcf86cd799439013",
     "tableId": "507f1f77bcf86cd799439011",
-    "companyId": "507f1f77bcf86cd799439012",
     "status": "ACCEPTED",
     "items": [
       {
@@ -823,9 +656,6 @@ Updates the status of an order.
 
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
-| POST | `/api/companies/create` | Create a new company |
-| GET | `/api/companies/get` | Retrieve companies |
-| PUT | `/api/companies/update` | Update company details |
 | POST | `/api/tables/create` | Create a new table |
 | GET | `/api/tables/get` | Retrieve tables |
 | PUT | `/api/tables/update` | Update table details |
@@ -845,18 +675,6 @@ Updates the status of an order.
 
 ## Testing with cURL
 
-### Create Company Example:
-```bash
-curl -X POST http://localhost:5000/api/companies/create \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Pizza Palace",
-    "email": "info@pizzapalace.com",
-    "phoneNo": "9876543210",
-    "address": "123 Main Street, New York, NY 10001"
-  }'
-```
-
 ### Create Table Example:
 ```bash
 curl -X POST http://localhost:5000/api/tables/create \
@@ -864,7 +682,6 @@ curl -X POST http://localhost:5000/api/tables/create \
   -d '{
     "tableNumber": 1,
     "capacity": 4,
-    "companyId": "507f1f77bcf86cd799439012"
   }'
 ```
 
@@ -876,7 +693,6 @@ curl -X POST http://localhost:5000/api/sessions/create \
     "tableId": "507f1f77bcf86cd799439011",
     "custName": "John Doe",
     "phoneNo": "98765432101",
-    "companyId": "507f1f77bcf86cd799439012"
   }'
 ```
 
@@ -887,7 +703,6 @@ curl -X POST http://localhost:5000/api/orders/place-order \
   -d '{
     "sessionId": "507f1f77bcf86cd799439013",
     "tableId": "507f1f77bcf86cd799439011",
-    "companyId": "507f1f77bcf86cd799439012",
     "items": [
       {
         "menuId": "507f1f77bcf86cd799439020",
@@ -905,9 +720,6 @@ curl -X POST http://localhost:5000/api/orders/place-order \
 
 - All IDs are MongoDB ObjectIds (24-character hexadecimal strings)
 - Timestamps are in ISO 8601 format
-- **Company Setup Flow:**
-  1. First, create a company using the Company API
-  2. Use the returned `companyId` for all subsequent operations
 - **Table Setup:**
   - Create tables for the company after company creation
   - `status: true` indicates table is active and available
@@ -926,7 +738,6 @@ curl -X POST http://localhost:5000/api/orders/place-order \
   - Menu items must be active and available
   - All items must belong to the same company
 - **Validation Rules:**
-  - Email addresses must be unique across companies
   - Table numbers must be unique within a company
   - Menu item names must be unique within a company
 - **Database Requirements:**

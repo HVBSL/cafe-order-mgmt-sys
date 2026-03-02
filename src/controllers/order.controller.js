@@ -6,7 +6,17 @@ import Menu from "../models/menu.model.js";
 
 export const placeOrder = async (req, res) => {
     try {
-        const { sessionId, tableId, items } = req.body;
+        const { sessionId, tableId, companyId, items } = req.body;
+
+        // Validate required fields
+        if (!sessionId || !tableId || !companyId) {
+            return res.status(400).json({ message: "sessionId, tableId, and companyId are required" });
+        }
+
+        // Validate menu items
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            return res.status(400).json({ message: "Items array is required and must not be empty" });
+        }
 
         // Check if the session exists and is active
         const session = await Session.findOne({ _id: sessionId, active: true });
@@ -30,6 +40,10 @@ export const placeOrder = async (req, res) => {
         // } 
 
         // Validate menu items
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            return res.status(400).json({ message: "Items array is required and must not be empty" });
+        }
+
         for (const item of items) {
             const menuItem = await Menu.findOne({ _id: item.menuId, companyId, isActive: true });
 
