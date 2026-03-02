@@ -6,7 +6,7 @@ import Menu from "../models/menu.model.js";
 
 export const placeOrder = async (req, res) => {
     try {
-        const { sessionId, tableId, items, companyId } = req.body;
+        const { sessionId, tableId, items } = req.body;
 
         // Check if the session exists and is active
         const session = await Session.findOne({ _id: sessionId, active: true });
@@ -23,11 +23,11 @@ export const placeOrder = async (req, res) => {
         }
 
         // Check if the company exists
-        const company = await CompanyDet.findOne({ _id: companyId });
+        // const company = await CompanyDet.findOne({ _id: companyId });
 
-        if (!company) {
-            return res.status(404).json({ message: "Company not found" });
-        } 
+        // if (!company) {
+        //     return res.status(404).json({ message: "Company not found" });
+        // } 
 
         // Validate menu items
         for (const item of items) {
@@ -43,7 +43,6 @@ export const placeOrder = async (req, res) => {
             sessionId,
             tableId,
             items,
-            companyId,
         });
 
         res.status(201).json({ message: "Order placed successfully", order });

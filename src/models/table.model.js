@@ -10,10 +10,10 @@ const tableSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    companyId: {
-        type: String,
-        required: true,
-    },
+    // companyId: {
+    //     type: String,
+    //     required: true,
+    // },
     status: {
         type: Boolean,
         required: true,

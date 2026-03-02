@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const sessionSchema = new mongoose.Schema({
     tableId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Table",
         required: true,
     }, 
     custName: {
@@ -13,10 +14,10 @@ const sessionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    companyId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-    },
+    // companyId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: true,
+    // },
     createdAt: {
         type: Date,
         default: Date.now,

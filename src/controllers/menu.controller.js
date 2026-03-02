@@ -3,17 +3,17 @@ import Menu from "../models/menu.model.js";
 
 export const getItems = async (req, res) => {
     try {
-        const { companyId } = req.body;
+        // const { companyId } = req.body;
 
-        // Check if the company exists
-        const company = await CompanyDet.findOne({ _id: companyId });
+        // // Check if the company exists
+        // const company = await CompanyDet.findOne({ _id: companyId });
 
-        if (!company) {
-            return res.status(404).json({ message: "Company not found" });
-        }
+        // if (!company) {
+        //     return res.status(404).json({ message: "Company not found" });
+        // }
 
         // Find the menu for the specified company
-        const menu = await Menu.findAll({ companyId });
+        const menu = await Menu.findAll({ isActive: true });
 
         if (!menu || menu.length === 0) {
             return res.status(404).json({ message: "Menu not found for this company" });

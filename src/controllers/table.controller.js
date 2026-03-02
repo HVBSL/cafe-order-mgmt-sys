@@ -3,12 +3,12 @@ import CompanyDet from "../models/companyDet.model.js";
 
 export const createTable = async (req, res) => {
     try {
-        const { tableNumber, capacity, companyId } = req.body;
+        const { tableNumber, capacity } = req.body; // companyId 
 
-        const company = await CompanyDet.findById(companyId);
-        if (!company) {
-            return res.status(404).json({ message: "Company not found" });
-        }
+        // const company = await CompanyDet.findById(companyId);
+        // if (!company) {
+        //     return res.status(404).json({ message: "Company not found" });
+        // }
 
         const existingTable = await Table.findOne({ tableNumber, companyId });
         if (existingTable) {

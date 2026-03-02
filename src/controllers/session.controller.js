@@ -4,10 +4,10 @@ import CompanyDet from "../models/companyDet.model.js";
 
 export const createSession = async (req, res) => {
     try {
-        const { tableId, custName, phoneNo, companyId } = req.body;
+        const { tableId, custName, phoneNo } = req.body;
 
         // Check if the table exists and is active
-        const table = await Table.findOne({ _id: tableId, companyId, status: true });
+        const table = await Table.findOne({ tableNumber: tableId, status: true });
 
         if (!table) {
             return res.status(404).json({ message: "Table not found or is not active" });
@@ -15,10 +15,9 @@ export const createSession = async (req, res) => {
 
         // Create a new session
         const session = await Session.create({
-            tableId,
+            tableId: table._id,
             custName,
             phoneNo,
-            companyId,
             active: true,
         });
 
@@ -31,18 +30,17 @@ export const createSession = async (req, res) => {
 
 export const getSessions = async (req, res) => {
     try {
-        const { companyId, tableId, phoneNo } = req.body;
+        const { tableId, phoneNo } = req.body;
 
         // Check if the company exists
-        const company = await CompanyDet.findOne({ _id: companyId });
+        // const company = await CompanyDet.findOne({ _id: companyId });
 
-        if (!company) {
-            return res.status(404).json({ message: "Company not found" });
-        }
+        // if (!company) {
+        //     return res.status(404).json({ message: "Company not found" });
+        // }
 
         // Find sessions based on the provided parameters
         const sessions = await Session.find({
-            companyId,
             ...(tableId && { tableId }),
             ...(phoneNo && { phoneNo }),
             active: true,

@@ -41,10 +41,10 @@ const orderSchema = new mongoose.Schema({
     statusUpdatedReason: {
         type: String,
     },
-    companyId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-    },
+    // companyId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: true,
+    // },
 }, { timestamps: true });
 
 const Order = mongoose.model("Order", orderSchema); 

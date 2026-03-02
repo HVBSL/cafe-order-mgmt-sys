@@ -13,10 +13,10 @@ const menuSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    companyId: {
-        type: String,
-        required: true,
-    },
+    // companyId: {
+    //     type: String,
+    //     required: true,
+    // },
     isAvailable: {
         type: Boolean,
         required: true,
