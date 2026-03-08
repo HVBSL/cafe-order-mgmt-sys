@@ -29,19 +29,16 @@ export const createTable = async (req, res) => {
 
 export const getTables = async (req, res) => {
     try {
-        const { tableId, status } = req.body;
+        // const { tableId, status } = req.body;
 
-        const company = await CompanyDet.findAll({status: true});
-         if (!company || company.length === 0) {
-            return res.status(404).json({ message: "Company not found" });
-        }
+        // const company = await CompanyDet.find({status: true});
+        //  if (!company || company.length === 0) {
+        //     return res.status(404).json({ message: "Company not found" });
+        // }
 
-        const tables = await Table.find({
-            companyId,
-            ...(tableId && { _id: tableId }),
-            ...(typeof status === "boolean" ? { status } : {}),
-        });
-
+        const tables = await Table.find({status: true});//.populate("companyId");
+        // console.log(res);
+        
         res.status(200).json({ tables });
     } catch (error) {
         res.status(500).json({ message: "Error retrieving tables", error: error.message });

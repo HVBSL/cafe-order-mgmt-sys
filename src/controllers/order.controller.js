@@ -6,17 +6,7 @@ import Menu from "../models/menu.model.js";
 
 export const placeOrder = async (req, res) => {
     try {
-        const { sessionId, tableId, companyId, items } = req.body;
-
-        // Validate required fields
-        if (!sessionId || !tableId || !companyId) {
-            return res.status(400).json({ message: "sessionId, tableId, and companyId are required" });
-        }
-
-        // Validate menu items
-        if (!items || !Array.isArray(items) || items.length === 0) {
-            return res.status(400).json({ message: "Items array is required and must not be empty" });
-        }
+        const { sessionId, tableId, items } = req.body;
 
         // Check if the session exists and is active
         const session = await Session.findOne({ _id: sessionId, active: true });
@@ -26,7 +16,7 @@ export const placeOrder = async (req, res) => {
         }
 
         // Check if the table exists and is active
-        const table = await Table.findOne({ _id: tableId, companyId, status: true });
+        const table = await Table.findOne({ _id: tableId, status: true });
 
         if (!table) {
             return res.status(404).json({ message: "Table not found or is not active" });
@@ -45,7 +35,7 @@ export const placeOrder = async (req, res) => {
         }
 
         for (const item of items) {
-            const menuItem = await Menu.findOne({ _id: item.menuId, companyId, isActive: true });
+            const menuItem = await Menu.findOne({ _id: item.menuId, isActive: true });
 
             if (!menuItem) {
                 return res.status(404).json({ message: `Menu item with ID ${item.menuId} not found or is not active` });
@@ -68,9 +58,9 @@ export const placeOrder = async (req, res) => {
 
 export const getOrders = async (req, res) => {
     try {
-        const { companyId } = req.body;
+        // const { companyId } = req.body;
 
-        const orders = await Order.find({ companyId, status: { $ne: "cancelled" } }).populate("sessionId").populate("tableId").populate("items.menuId");
+        const orders = await Order.find({ status: { $ne: "cancelled" } }).populate("sessionId").populate("tableId").populate("items.menuId");
 
         res.status(200).json({ orders });
 

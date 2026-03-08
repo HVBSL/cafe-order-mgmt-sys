@@ -3,15 +3,6 @@ import Menu from "../models/menu.model.js";
 
 export const getItems = async (req, res) => {
     try {
-        // const { companyId } = req.body;
-
-        // // Check if the company exists
-        // const company = await CompanyDet.findOne({ _id: companyId });
-
-        // if (!company) {
-        //     return res.status(404).json({ message: "Company not found" });
-        // }
-
         // Find the menu for the specified company
         const menu = await Menu.find({ isActive: true });
 
@@ -28,16 +19,16 @@ export const getItems = async (req, res) => {
 
 export const createItems = async (req, res) => {
     try {
-        const { companyId, name, price, category } = req.body;
+        const { name, price, category } = req.body;
 
         // Check if the company exists
-        const company = await CompanyDet.findOne({ _id: companyId });
+        // const company = await CompanyDet.findOne({ _id: companyId });
 
-        if (!company) {
-            return res.status(404).json({ message: "Company not found" });
-        }
+        // if (!company) {
+        //     return res.status(404).json({ message: "Company not found" });
+        // }
 
-        const existingMenu = await Menu.findOne({ companyId, name });
+        const existingMenu = await Menu.findOne({ name });
 
         if (existingMenu && existingMenu?.isActive) {
             return res.status(400).json({ message: "Menu item with this name already exists for this company" });
@@ -52,7 +43,6 @@ export const createItems = async (req, res) => {
 
         // Create a new menu for the specified company
         const menu = await Menu.create({
-            companyId,
             name,
             price,
             category,
@@ -70,7 +60,7 @@ export const updateItems = async (req, res) => {
         const { menuId, name, price, category, isAvailable } = req.body;
 
         // Check if the menu exists
-        const menu = await Menu.findOne({ _id: menuId, isActive: true, isAvailable: true });
+        const menu = await Menu.findOne({ _id: menuId, isActive: true, isAvailable: isAvailable });
 
         if (!menu) {
             return res.status(404).json({ message: "Menu item not found" });
